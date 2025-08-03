@@ -49,6 +49,13 @@ self.addEventListener('fetch', (event) => {
             })
             .catch(() => {
                 console.log('Service Worker: Fetch Failed');
+                // Provide a fallback page so that the fetch handler
+                // always resolves with a valid Response. Without
+                // returning a value here, respondWith would receive
+                // `undefined`, leading to a failed request when the
+                // network is unavailable and the resource isn't in
+                // cache.
+                return caches.match('./index.html');
             })
     );
-}); 
+});
